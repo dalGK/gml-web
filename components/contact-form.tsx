@@ -92,7 +92,7 @@ export function ContactForm() {
 
       <div>
         <label className="block text-sm font-medium text-[#0C2C5B] mb-2">Teléfono</label>
-        <Input {...register("phone")} placeholder="Tu número de teléfono (opcional)" />
+        <Input {...register("phone")} placeholder="Tu número de teléfono" />
       </div>
 
       <div>

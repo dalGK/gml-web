@@ -57,9 +57,7 @@ export async function POST(request: NextRequest) {
                 <p>Nueva Consulta Recibida</p>
             </div>
             <div class="content">
-                <div class="priority-badge">Nueva Consulta</div>
-
-                <div class="field">
+                    <div class="field">
                     <div class="field-label">👤 Nombre Completo</div>
                     <div class="field-value">${name}</div>
                 </div>

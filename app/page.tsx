@@ -485,7 +485,7 @@ export default function HomePage() {
                     <Phone className="w-6 h-6 text-[#C62828] mr-4 mt-1" />
                     <div>
                       <p className="font-semibold text-[#0C2C5B]">Teléfono</p>
-                      <p className="text-gray-600">+54 11 3946 8007</p>
+                      <p className="text-gray-600">+54 (11) 3946-8007</p>
                     </div>
                   </div>
 
@@ -502,7 +502,7 @@ export default function HomePage() {
                     <div>
                       <p className="font-semibold text-[#0C2C5B]">Dirección</p>
                       <p className="text-gray-600">
-                        Honduras 5730 CABA
+                        Honduras 5730, Palermo (CABA)
                         <br />
                         Buenos Aires, Argentina 
                       </p>
@@ -519,9 +519,6 @@ export default function HomePage() {
                   </p>
                   <p>
                     <span className="font-medium">Sábados:</span> 9:00 AM - 2:00 PM
-                  </p>
-                  <p>
-                    <span className="font-medium">Emergencias:</span> 24/7
                   </p>
                 </div>
               </div>
@@ -600,13 +597,13 @@ export default function HomePage() {
               <h4 className="text-lg font-semibold mb-4">Contacto</h4>
               <div className="space-y-2 text-gray-300">
                 <p className="flex items-center">
-                  <Phone className="w-4 h-4 mr-2" /> +54 11 3946 8007
+                  <Phone className="w-4 h-4 mr-2" /> +54 (11) 3946-8007
                 </p>
                 <p className="flex items-center">
                   <Mail className="w-4 h-4 mr-2" /> info@gml.com.ar
                 </p>
                 <p className="flex items-start">
-                  <MapPin className="w-4 h-4 mr-2 mt-1" /> Av. Aeropuerto 123, Zona Industrial
+                  <MapPin className="w-4 h-4 mr-2 mt-1" /> Honduras 5730, Palermo (CABA)
                 </p>
               </div>
             </div>

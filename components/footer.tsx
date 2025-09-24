@@ -107,7 +107,7 @@ export default function Footer() {
               <div className="flex items-start space-x-3">
                 <Phone className="h-5 w-5 text-gml-red mt-1" />
                 <div>
-                  <p className="text-gray-300">+54 11 3946 8007</p>
+                  <p className="text-gray-300">+54 (11) 3946-8007</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -120,9 +120,8 @@ export default function Footer() {
                 <MapPin className="h-5 w-5 text-gml-red mt-1" />
                 <div>
                   <p className="text-gray-300">
-                    Aeropuerto Internacional
                     <br />
-                    Honduras 5730 CABA
+                    Honduras 5730, Palermo (CABA)
                     <br />
                     Buenos Aires, Argentina
                   </p>

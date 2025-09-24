@@ -93,8 +93,6 @@ export default function ContactSection() {
                       Lunes - Viernes: 6:00 AM - 10:00 PM
                       <br />
                       Sábados: 8:00 AM - 6:00 PM
-                      <br />
-                      Domingos: Emergencias únicamente
                     </p>
                   </div>
                 </div>
