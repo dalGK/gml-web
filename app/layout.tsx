@@ -1,28 +1,24 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Poppins } from "next/font/google"
+import { EB_Garamond } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { Toaster } from "@/components/toaster"
 import "./globals.css"
+import "./site.css"
 
-const inter = Inter({
+const text = EB_Garamond({
   subsets: ["latin"],
-  variable: "--font-inter",
-})
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins",
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-text",
 })
 
 export const metadata: Metadata = {
-  title: "GML Servicios Aéreos - Soluciones Aeronáuticas Profesionales",
+  title: "GML Servicios Aéreos · Courier y carga de Estados Unidos a Argentina",
   description:
-    "Servicios aeronáuticos especializados con los más altos estándares de seguridad y profesionalismo. Transporte aéreo, consultoría y mantenimiento aeronáutico.",
-  keywords: "servicios aéreos, aviación, transporte aéreo, mantenimiento aeronáutico, consultoría aeronáutica, GML",
-  generator: "v0.app",
+    "Courier internacional y carga aérea, marítima y terrestre de Estados Unidos a Argentina, con despacho aduanero y entrega puerta a puerta. Más de 30 años de experiencia. Oficina en Palermo, Buenos Aires.",
+  keywords: "courier internacional, importación, exportación, Estados Unidos, Argentina, despacho aduanero, carga aérea, GML",
 }
 
 export default function RootLayout({
@@ -31,9 +27,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="font-sans antialiased">
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+    <html lang="es" className={text.variable} suppressHydrationWarning>
+      <head>
+        {/* Los estados ocultos de las animaciones solo se aplican si hay JavaScript */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
+      <body>
+        <Suspense fallback={null}>{children}</Suspense>
         <Toaster />
         <Analytics />
       </body>
