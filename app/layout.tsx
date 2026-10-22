@@ -1,16 +1,16 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { EB_Garamond } from "next/font/google"
+import { Archivo } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { Toaster } from "@/components/toaster"
 import "./globals.css"
-import "./site.css"
+import "./home.css"
 
-const text = EB_Garamond({
+// Archivo es ancha y pesada como el "GML" del logo; el eje de ancho se usa en los títulos
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
+  axes: ["wdth"],
   variable: "--font-text",
 })
 
@@ -27,11 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={text.variable} suppressHydrationWarning>
-      <head>
-        {/* Los estados ocultos de las animaciones solo se aplican si hay JavaScript */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
-      </head>
+    <html lang="es" className={archivo.variable} suppressHydrationWarning>
       <body>
         <Suspense fallback={null}>{children}</Suspense>
         <Toaster />
