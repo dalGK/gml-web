@@ -76,7 +76,7 @@ export default function ContactSection() {
                     <h4 className="font-semibold gml-blue mb-1">Ubicación</h4>
                     <p className="text-gray-600">
                       <br />
-                      Honduras 5730 CABA
+                      Honduras 5730, Palermo (CABA)
                       <br />
                       Buenos Aires, Argentina
                     </p>
@@ -149,7 +149,7 @@ export default function ContactSection() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full"
-                    placeholder="+54 11 3946 8007"
+                    placeholder="+54 (11) 3946-8007"
                   />
                 </div>
                 <div>

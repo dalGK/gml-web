@@ -7,14 +7,14 @@ export interface InputProps
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = "text", error, onInvalid, ...props }, ref) => {
+  ({ className, type = "text", required, error, onInvalid, ...props }, ref) => {
     return (
       <input
         ref={ref}
         type={type}
         data-slot="input"
         // ❌ No queremos validación nativa del navegador
-       // required={required ?? undefined}
+        required={required ?? undefined}
         onInvalid={(e) => {
           e.preventDefault();
           onInvalid?.(e as any);

@@ -1,0 +1,107 @@
+/* GML · diseño simple: blanco, azul y rojo del logo, tipografía Archivo.
+   Un solo gesto fuerte (los títulos anchos y pesados); el resto, quieto. */
+
+:root {
+  --navy: #0c2c5b;
+  --navy-deep: #08203f;
+  --red: #c62828;
+  --red-press: #a81f1f;
+  --mist: #f2f5f9;
+  --slate: #44536b;
+  --rule: #d9e0ea;
+}
+
+body {
+  background: #ffffff;
+  color: var(--navy);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Títulos: Archivo expandida, como el logotipo */
+.display {
+  font-stretch: 118%;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+.heading {
+  font-stretch: 112%;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.prose-gml {
+  color: var(--slate);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--red-press);
+}
+.btn-ghost {
+  color: var(--navy);
+  box-shadow: inset 0 0 0 1.5px var(--navy);
+}
+.btn-ghost:hover {
+  background: var(--navy);
+  color: #fff;
+}
+
+:where(a, button, input, textarea):focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+/* Única animación: la entrada del hero al cargar */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rise-2 {
+  animation-delay: 120ms;
+}
+.rise-3 {
+  animation-delay: 240ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

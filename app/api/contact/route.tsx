@@ -28,76 +28,135 @@ export async function POST(request: NextRequest) {
     }
 
     // 3) Plantilla HTML (tu diseño)
-    const htmlTemplate = `
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f4f4f4; }
-            .container { background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.1); }
-            .header { background: linear-gradient(135deg, #0C2C5B 0%, #C62828 100%); color: white; padding: 30px; text-align: center; }
-            .header h1 { margin: 0; font-size: 28px; font-weight: bold; }
-            .content { padding: 40px 30px; }
-            .field { margin-bottom: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #C62828; }
-            .field-label { font-weight: bold; color: #0C2C5B; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-            .field-value { font-size: 16px; color: #333; word-wrap: break-word; }
-            .message-field { background-color: #fff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-top: 10px; }
-            .footer { background-color: #0C2C5B; color: white; padding: 25px 30px; text-align: center; }
-            .priority-badge { display: inline-block; background-color: #C62828; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
-            .divider { height: 2px; background: linear-gradient(90deg, #0C2C5B 0%, #C62828 100%); margin: 30px 0; border: none; }
-            a { color: #C62828; text-decoration: none; }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <h1>🛩️ GML Servicios Aéreos</h1>
-                <p>Nueva Consulta Recibida</p>
-            </div>
-            <div class="content">
-                    <div class="field">
-                    <div class="field-label">👤 Nombre Completo</div>
-                    <div class="field-value">${name}</div>
-                </div>
+    // Helpers para sanear textos antes de inyectar en HTML (evita HTML raro)
+const esc = (s: any) =>
+  String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 
-                <div class="field">
-                    <div class="field-label">📧 Correo Electrónico</div>
-                    <div class="field-value"><a href="mailto:${email}">${email}</a></div>
-                </div>
+const htmlTemplate = `
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nueva consulta – GML</title>
+  <style>
+    /* Estilos de soporte; la mayoría está inline para compatibilidad */
+    @media (max-width:600px){
+      .container{width:100% !important}
+      .px{padding-left:16px !important;padding-right:16px !important}
+      .stack td{display:block !important;width:100% !important}
+    }
+  </style>
+</head>
+<body style="margin:0;background:#f3f6f9;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f3f6f9;">
+    <tr>
+      <td align="center" style="padding:24px;">
+        <table role="presentation" width="600" class="container" cellspacing="0" cellpadding="0" border="0" style="width:600px;max-width:100%;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(12,44,91,0.1);">
+          <!-- Header -->
+          <tr>
+            <td style="background:#0C2C5B;background:linear-gradient(135deg,#0C2C5B 0%,#173d77 55%,#C62828 120%);padding:28px 24px;color:#fff;text-align:center;">
+              <div style="font-size:13px;letter-spacing:1.2px;text-transform:uppercase;opacity:.9;">GML Servicios Aéreos</div>
+              <div style="font-size:24px;font-weight:800;line-height:1.2;margin-top:6px;">Nueva consulta recibida ✈️</div>
+              <div style="font-size:12px;opacity:.9;margin-top:6px;">
+                ${new Date().toLocaleDateString("es-AR",{weekday:"long",year:"numeric",month:"long",day:"numeric"})}
+              </div>
+            </td>
+          </tr>
 
+          <!-- Intro -->
+          <tr>
+            <td class="px" style="padding:28px 32px 8px 32px;color:#0c2c5b;font-family:Arial,Helvetica,sans-serif;">
+              <div style="font-size:16px;">
+                Has recibido un mensaje desde el formulario de contacto de <strong>GML</strong>.
+              </div>
+            </td>
+          </tr>
+
+          <!-- Datos -->
+          <tr>
+            <td class="px" style="padding:8px 32px 24px 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border:1px solid #e7edf5;border-radius:10px;overflow:hidden;">
+                <tr class="stack">
+                  <td style="background:#f7f9fc;width:190px;padding:14px 16px;font:bold 12px Arial,Helvetica,sans-serif;color:#0C2C5B;text-transform:uppercase;letter-spacing:0.5px;">Nombre</td>
+                  <td style="padding:14px 16px;font:14px Arial,Helvetica,sans-serif;color:#283041;">${esc(name)}</td>
+                </tr>
+                <tr class="stack">
+                  <td style="background:#f7f9fc;width:190px;padding:14px 16px;font:bold 12px Arial,Helvetica,sans-serif;color:#0C2C5B;text-transform:uppercase;letter-spacing:0.5px;">Correo</td>
+                  <td style="padding:14px 16px;font:14px Arial,Helvetica,sans-serif;color:#283041;">
+                    <a href="mailto:${esc(email)}" style="color:#C62828;text-decoration:none;">${esc(email)}</a>
+                  </td>
+                </tr>
                 ${phone ? `
-                <div class="field">
-                    <div class="field-label">📱 Teléfono</div>
-                    <div class="field-value"><a href="tel:${phone}">${phone}</a></div>
-                </div>` : ""}
-
-                <hr class="divider" />
-
-                <div class="field">
-                    <div class="field-label">💬 Mensaje</div>
-                    <div class="message-field">
-                        <div class="field-value">${String(message).replace(/\n/g, "<br>")}</div>
+                <tr class="stack">
+                  <td style="background:#f7f9fc;width:190px;padding:14px 16px;font:bold 12px Arial,Helvetica,sans-serif;color:#0C2C5B;text-transform:uppercase;letter-spacing:0.5px;">Teléfono</td>
+                  <td style="padding:14px 16px;font:14px Arial,Helvetica,sans-serif;color:#283041;">
+                    <a href="tel:${esc(phone)}" style="color:#283041;text-decoration:none;">${esc(phone)}</a>
+                  </td>
+                </tr>` : ``}
+                <tr>
+                  <td colspan="2" style="padding:0;border-top:1px solid #e7edf5;"></td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding:0 16px 16px 16px;">
+                    <div style="margin-top:16px;background:#ffffff;border:1px solid #e7edf5;border-radius:10px;">
+                      <div style="background:#fef3f3;border-bottom:1px solid #fde2e2;padding:10px 14px;font:bold 12px Arial,Helvetica,sans-serif;color:#C62828;text-transform:uppercase;letter-spacing:.5px;">Mensaje</div>
+                      <div style="padding:16px 14px;font:14px/1.6 Arial,Helvetica,sans-serif;color:#283041;white-space:pre-wrap;">${esc(message)}</div>
                     </div>
-                </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-                <hr class="divider" />
+          <!-- Botones rápidos -->
+          <tr>
+            <td align="center" style="padding:0 32px 24px 32px;">
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                  <td style="border-radius:8px;background:#0C2C5B;">
+                    <a href="mailto:${esc(email)}" style="display:inline-block;padding:12px 18px;font:14px Arial,Helvetica,sans-serif;color:#fff;text-decoration:none;">Responder ahora</a>
+                  </td>
+                  ${phone ? `
+                  <td style="width:12px;"></td>
+                  <td style="border-radius:8px;background:#C62828;">
+                    <a href="tel:${esc(phone)}" style="display:inline-block;padding:12px 18px;font:14px Arial,Helvetica,sans-serif;color:#fff;text-decoration:none;">Llamar</a>
+                  </td>` : ``}
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-                <p style="background-color: #e8f4fd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0C2C5B;">
-                    <strong>💡 Recordatorio:</strong> Responde a esta consulta lo antes posible para brindar un excelente servicio al cliente.
-                </p>
-            </div>
-            <div class="footer">
-                <p>Este mensaje fue enviado desde el formulario de contacto de GML Servicios Aéreos</p>
-                <p style="font-size: 12px; margin-top: 10px;">
-                    Fecha: ${new Date().toLocaleDateString("es-ES", { weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" })}
-                </p>
-            </div>
+          <!-- Footer con datos GML -->
+          <tr>
+            <td style="background:#0C2C5B;color:#ffffff;padding:20px 24px;font:12px/1.6 Arial,Helvetica,sans-serif;text-align:center;">
+              <div style="font-weight:bold;letter-spacing:.6px;text-transform:uppercase;">GML Servicios Aéreos</div>
+              <div style="opacity:.95;margin-top:6px;">
+                Honduras 5730, CABA — Buenos Aires, Argentina
+              </div>
+              <div style="opacity:.95;">Tel. +54 (11) 3946-8007 ·
+                <a href="mailto:info@gml.com.ar" style="color:#fff;text-decoration:underline;">info@gml.com.ar</a>
+              </div>
+              <div style="opacity:.8;margin-top:6px;">Lun–Vie 08:00–18:00 · Sáb 09:00–14:00</div>
+            </td>
+          </tr>
+
+        </table>
+        <div style="font:11px Arial,Helvetica,sans-serif;color:#6b778c;margin-top:12px;text-align:center;">
+          Este email se generó automáticamente desde el formulario de contacto de GML.
         </div>
-    </body>
-    </html>
-    `;
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
 
     // 4) Envío con Resend
     const sendResult = await resend.emails.send({

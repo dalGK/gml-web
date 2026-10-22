@@ -1,642 +1,318 @@
-"use client"
-
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ContactForm } from "@/components/contact-form"
-import {
-  Plane,
-  Shield,
-  Users,
-  Award,
-  CheckCircle,
-  Phone,
-  Mail,
-  MapPin,
-  MessageCircle,
-  Package,
-  Truck,
-  Globe,
-} from "lucide-react"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { Clock, Mail, MapPin, MessageCircle, Phone, Plane } from "lucide-react"
+import { ContactForm } from "@/components/contact-form"
+import WhatsAppButton from "@/components/whatsapp-button"
+
+const WHATSAPP_URL =
+  "https://wa.me/541139468007?text=Hola,%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20sus%20servicios%20de%20courier%20internacional"
+
+const nav = [
+  { href: "#nosotros", label: "Nosotros" },
+  { href: "#servicios", label: "Servicios" },
+  { href: "#como-funciona", label: "Cómo funciona" },
+  { href: "#contacto", label: "Contacto" },
+]
+
+const values = [
+  { title: "Seguridad", text: "Cumplimos las normativas internacionales de transporte aéreo en cada envío." },
+  { title: "Confiabilidad", text: "Plazos claros y seguimiento de su mercadería de principio a fin." },
+  { title: "Alcance", text: "Especialistas en el comercio entre Estados Unidos y Argentina." },
+  { title: "Experiencia", text: "Más de 30 años de trayectoria de nuestros socios en el sector." },
+]
+
+const services = [
+  {
+    title: "Courier internacional",
+    text: "Pequeños envíos aéreos para importar mercadería nueva de forma simple y ágil, con entrega puerta a puerta.",
+    tag: "Puerta a puerta",
+  },
+  {
+    title: "Asesoramiento en importación y exportación",
+    text: "Conocemos las leyes de exportación de Estados Unidos y de importación en Argentina, y lo guiamos en cada paso.",
+    tag: "EE.UU. – Argentina",
+  },
+  {
+    title: "Transporte aéreo, marítimo y terrestre",
+    text: "Carga consolidada o no, con despacho a Buenos Aires. Llevamos su mercadería donde la necesite.",
+    tag: "Multimodal",
+  },
+  {
+    title: "Almacenaje",
+    text: "Depósito internacional no refrigerado para mercadería envasada. Para estadías de más de un mes, consulte el costo.",
+    tag: "Depósito internacional",
+  },
+  {
+    title: "Carga aeroexpress",
+    text: "Experiencia en el manejo de carga en zona primaria aduanera y en las regulaciones de cada aeropuerto donde operamos.",
+    tag: "Zona primaria",
+  },
+]
+
+const steps = [
+  {
+    title: "Su proveedor nos envía la mercadería",
+    text: "La recibimos en nuestro depósito internacional en Estados Unidos.",
+  },
+  {
+    title: "Preparamos el envío",
+    text: "Consolidamos la carga, armamos la documentación y elegimos la vía: courier, aérea o marítima.",
+  },
+  {
+    title: "Despachamos en Argentina",
+    text: "Gestionamos la aduana en zona primaria, en Ezeiza o en el puerto de Buenos Aires.",
+  },
+  {
+    title: "Entregamos en su puerta",
+    text: "Llevamos la mercadería a su domicilio, oficina o depósito.",
+  },
+]
 
 export default function HomePage() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [textVisible, setTextVisible] = useState(false)
-  const fullText = "Courier Internacional y Servicios de Transporte"
-
-  useEffect(() => {
-    setIsVisible(true)
-
-    const timer = setTimeout(() => {
-      setTextVisible(true)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center">
-            <Image
-              src="/images/logo-gml.jpg"
-              alt="GML Servicios Aéreos"
-              width={80}
-              height={80}
-              className="rounded-full"
-            />
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-8">
-            <button
-              onClick={() => scrollToSection("inicio")}
-              className="text-[#0C2C5B] hover:text-[#C62828] transition-colors"
-            >
-              Inicio
-            </button>
-            <button
-              onClick={() => scrollToSection("nosotros")}
-              className="text-[#0C2C5B] hover:text-[#C62828] transition-colors"
-            >
-              Nosotros
-            </button>
-            <button
-              onClick={() => scrollToSection("servicios")}
-              className="text-[#0C2C5B] hover:text-[#C62828] transition-colors"
-            >
-              Servicios
-            </button>
-            <button
-              onClick={() => scrollToSection("proyectos")}
-              className="text-[#0C2C5B] hover:text-[#C62828] transition-colors"
-            >
-              Proyectos
-            </button>
-            <button
-              onClick={() => scrollToSection("contacto")}
-              className="text-[#0C2C5B] hover:text-[#C62828] transition-colors"
-            >
-              Contacto
-            </button>
+    <div className="min-h-screen">
+      {/* Encabezado */}
+      <header className="sticky top-0 z-40 border-b border-[var(--rule)] bg-white/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-3 sm:px-6">
+          <a href="#inicio" className="flex items-center gap-3" aria-label="GML Servicios Aéreos, inicio">
+            <Image src="/images/logo-gml.jpg" alt="" width={48} height={48} className="rounded-full" priority />
+            <span className="heading hidden text-lg sm:block">GML Servicios Aéreos</span>
+          </a>
+          <nav className="hidden items-center gap-8 md:flex" aria-label="Principal">
+            {nav.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="text-[15px] text-[var(--slate)] transition-colors hover:text-[var(--navy)]"
+              >
+                {item.label}
+              </a>
+            ))}
           </nav>
-
-          <Button
-            onClick={() => scrollToSection("contacto")}
-            className="bg-[#C62828] hover:bg-[#0C2C5B] text-white transform hover:scale-105 transition-all duration-300"
-          >
-            Solicitar Presupuesto
-          </Button>
+          <a href="#contacto" className="btn btn-primary !min-h-10 !px-5 text-[15px]">
+            Pedir presupuesto
+          </a>
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section
-        id="inicio"
-        className="relative h-screen flex items-center justify-center bg-gradient-to-r from-blue-900/90 to-blue-800/90 overflow-hidden"
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center transform scale-110 animate-pulse"
-          style={{
-            backgroundImage: "url('/airplane-taking-off-from-runway-at-sunset.jpg')",
-            animation: "parallax 20s ease-in-out infinite alternate",
-          }}
-        />
-        <div className="absolute inset-0 bg-[#0C2C5B]/70" />
-
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-4">
-          <h1
-            className={`text-5xl md:text-6xl font-bold mb-6 text-balance transition-all duration-2000 ${
-              textVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
-          >
-            {fullText}
-          </h1>
-
-          <p
-            className={`text-xl md:text-2xl mb-8 text-gray-200 transition-all duration-1000 delay-500 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
-          >
-            Especialistas en envíos Courier, importación y exportación con más de 30 años de experiencia
-          </p>
-
-          <div
-            className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-1000 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
-          >
-            <Button
-              size="lg"
-              onClick={() => scrollToSection("contacto")}
-              className="bg-[#C62828] hover:bg-[#C62828]/90 text-white px-8 py-3 transform hover:scale-110 hover:shadow-2xl transition-all duration-300 animate-pulse hover:animate-none"
-            >
-              Solicitar Presupuesto
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection("nosotros")}
-              className="border-white text-white hover:bg-white hover:text-[#0C2C5B] px-8 py-3 bg-transparent transform hover:scale-110 hover:shadow-2xl transition-all duration-300"
-            >
-              Conócenos
-            </Button>
-          </div>
-        </div>
-
-        <button
-          onClick={() => scrollToSection("nosotros")}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
-        >
-          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </button>
-      </section>
-
-      {/* Nosotros Section */}
-      <section id="nosotros" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#0C2C5B] mb-6">Sobre GML Servicios Aéreos</h2>
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Nuestra empresa cuenta con el aporte de más de 30 años de experiencia de sus socios. Nuestra misión es
-              proveerle a nuestros clientes el servicio adecuado para sus necesidades con nuestro conocimiento de los
-              procesos del manejo y envío de mercadería.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Shield className="w-12 h-12 text-[#C62828] mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Seguridad</h3>
-                <p className="text-gray-600">Cumplimiento estricto de normativas internacionales de aviación</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <CheckCircle className="w-12 h-12 text-[#C62828] mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Confiabilidad</h3>
-                <p className="text-gray-600">Servicios puntuales y eficientes que superan expectativas</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Globe className="w-12 h-12 text-[#C62828] mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Alcance Global</h3>
-                <p className="text-gray-600">Especialistas en comercio entre Estados Unidos y Argentina</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center p-6 hover:shadow-lg transition-shadow">
-              <CardContent className="pt-6">
-                <Award className="w-12 h-12 text-[#C62828] mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Experiencia</h3>
-                <p className="text-gray-600">Más de 30 años de trayectoria comprobada en el sector</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Servicios Section */}
-      <section id="servicios" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#0C2C5B] mb-6">Nuestros Servicios</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              GML ofrece una variedad de servicios tendientes a satisfacer las necesidades específicas de cada cliente
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <Package className="w-16 h-16 text-[#C62828] mb-6" />
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Courier Internacional</h3>
-                <p className="text-gray-600 mb-4">
-                  Nos especializamos en envíos Courier, modalidad de pequeños envíos aéreos para importación simple y
-                  ágil de mercadería nueva. Servicio Puerta a Puerta disponible.
-                </p>
-                <Badge variant="secondary" className="bg-[#0C2C5B] text-white">
-                  Puerta a Puerta
-                </Badge>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <Users className="w-16 h-16 text-[#C62828] mb-6" />
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Asesoramiento Import/Export</h3>
-                <p className="text-gray-600 mb-4">
-                  Nuestro equipo se especializa en movimientos logísticos con conocimiento de las leyes de exportación
-                  desde Estados Unidos e importación en Argentina.
-                </p>
-                <Badge variant="secondary" className="bg-[#0C2C5B] text-white">
-                  USA - Argentina
-                </Badge>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <Truck className="w-16 h-16 text-[#C62828] mb-6" />
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Servicios de Transporte</h3>
-                <p className="text-gray-600 mb-4">
-                  Transporte terrestre, envíos aéreos y marítimos de carga (consolidada o no) con despacho a Buenos
-                  Aires. Llevamos su mercadería donde necesite.
-                </p>
-                <Badge variant="secondary" className="bg-[#0C2C5B] text-white">
-                  Multimodal
-                </Badge>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <Shield className="w-16 h-16 text-[#C62828] mb-6" />
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Almacenaje de Mercancías</h3>
-                <p className="text-gray-600 mb-4">
-                  Ofrecemos servicio de almacenaje de mercadería envasada en depósito no refrigerado. Contamos con
-                  depósito internacional para sus necesidades.
-                </p>
-                <Badge variant="secondary" className="bg-[#0C2C5B] text-white">
-                  Depósito Internacional
-                </Badge>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <Plane className="w-16 h-16 text-[#C62828] mb-6" />
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Transporte Aeroexpress</h3>
-                <p className="text-gray-600 mb-4">
-                  Conocimiento profundo de la industria del transporte aeroexpress. Experiencia en manejo de carga en
-                  zona primaria aduanera y regulaciones aeroportuarias.
-                </p>
-                <Badge variant="secondary" className="bg-[#0C2C5B] text-white">
-                  Zona Primaria
-                </Badge>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <Globe className="w-16 h-16 text-[#C62828] mb-6" />
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Desarrollo Empresarial</h3>
-                <p className="text-gray-600 mb-4">
-                  Con nuestros servicios de Courier y transportación aérea, brindamos el servicio que necesite para
-                  ayudar a desarrollar su compañía.
-                </p>
-                <Badge variant="secondary" className="bg-[#0C2C5B] text-white">
-                  Crecimiento
-                </Badge>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Qué está buscando Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="mb-16">
-            <h2 className="text-4xl font-bold text-[#0C2C5B] mb-6">Qué está buscando</h2>
-            <p className="text-lg text-gray-700 max-w-4xl">
-              Con nuestros servicios de Courier, transportación aérea, podremos brindarle el servicio que necesite para
-              ayudar a desarrollar su compañía.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-[#0C2C5B] text-white rounded-lg flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold">01</span>
-                </div>
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Servicios de Transporte</h3>
-                <p className="text-gray-600">
-                  Lleve su mercadería del proveedor a donde necesite. Ofrecemos servicio en Argentina. También contamos
-                  con un depósito internacional, para poder ayudar a transportar su carga de la forma que necesiten.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-[#0C2C5B] text-white rounded-lg flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold">02</span>
-                </div>
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">Transporte de Mercancías Envasadas</h3>
-                <p className="text-gray-600">
-                  Ofrecemos servicio de almacenaje de mercadería en un depósito no refrigerado. Por estadías mayores a
-                  un mes, por favor consultar costo de servicio.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-8">
-                <div className="w-16 h-16 bg-[#0C2C5B] text-white rounded-lg flex items-center justify-center mb-6">
-                  <span className="text-2xl font-bold">03</span>
-                </div>
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-4">
-                  Conocimiento Profundo de la Industria del Transporte Aeroexpreso
-                </h3>
-                <p className="text-gray-600">
-                  Contamos con la experiencia y la información actualizada en el manejo de la carga en zona primaria
-                  aduanera, el conocimiento de las regulaciones aduaneras de cada aeropuerto en el que operamos.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Proyectos Section */}
-      <section id="proyectos" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#0C2C5B] mb-6">Proyectos Destacados</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Algunos de nuestros casos de éxito que demuestran nuestra capacidad y compromiso
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div
-                className="h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage: "url('/commercial-aircraft-maintenance-hangar.jpg')",
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-xl font-semibold mb-2">Servicio Especializado</h3>
-                  <p className="text-sm">Mantenimiento y servicios técnicos aeronáuticos de alta calidad</p>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Servicio Especializado</h3>
-                <p className="text-gray-600">Servicios técnicos y mantenimiento aeronáutico profesional</p>
-              </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div
-                className="h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage: "url('/airport-cargo-operations.jpg')",
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-xl font-semibold mb-2">Servicio de Entrega</h3>
-                  <p className="text-sm">Entregas rápidas y seguras con seguimiento completo</p>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Servicio de Entrega</h3>
-                <p className="text-gray-600">Entregas eficientes y puntuales a nivel internacional</p>
-              </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-              <div
-                className="h-64 bg-cover bg-center"
-                style={{
-                  backgroundImage: "url('/aviation-training-simulator.jpg')",
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-xl font-semibold mb-2">Servicio Aéreo</h3>
-                  <p className="text-sm">Operaciones aéreas especializadas y transporte de carga</p>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#0C2C5B] mb-2">Servicio Aéreo</h3>
-                <p className="text-gray-600">Transporte aéreo y operaciones especializadas</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-[#C62828]">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            ¿Listo para llevar tu proyecto al siguiente nivel con nuestros servicios aéreos?
-          </h2>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Contáctanos hoy y descubre cómo podemos ayudarte a alcanzar tus objetivos con soluciones aeronáuticas de
-            clase mundial.
-          </p>
-          <Button
-            size="lg"
-            onClick={() => scrollToSection("contacto")}
-            className="bg-white text-[#0C2C5B] hover:bg-gray-100 px-8 py-3"
-          >
-            Contáctanos Ahora
-          </Button>
-        </div>
-      </section>
-
-      {/* Contacto Section */}
-      <section id="contacto" className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#0C2C5B] mb-6">Contáctanos</h2>
-            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-              Estamos aquí para responder tus consultas y brindarte la mejor solución para tus necesidades aeronáuticas
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12">
+      <main>
+        {/* Inicio */}
+        <section id="inicio" className="mx-auto max-w-6xl px-4 pb-20 pt-12 sm:px-6 lg:pt-20">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.25fr_1fr]">
             <div>
-              <Card className="p-8">
-                <CardContent className="pt-6">
-                  <ContactForm />
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-semibold text-[#0C2C5B] mb-6">Información de Contacto</h3>
-
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <Phone className="w-6 h-6 text-[#C62828] mr-4 mt-1" />
-                    <div>
-                      <p className="font-semibold text-[#0C2C5B]">Teléfono</p>
-                      <p className="text-gray-600">+54 (11) 3946-8007</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <Mail className="w-6 h-6 text-[#C62828] mr-4 mt-1" />
-                    <div>
-                      <p className="font-semibold text-[#0C2C5B]">Email</p>
-                      <p className="text-gray-600">info@gml.com.ar</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <MapPin className="w-6 h-6 text-[#C62828] mr-4 mt-1" />
-                    <div>
-                      <p className="font-semibold text-[#0C2C5B]">Dirección</p>
-                      <p className="text-gray-600">
-                        Honduras 5730, Palermo (CABA)
-                        <br />
-                        Buenos Aires, Argentina 
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <h4 className="text-lg font-semibold text-[#0C2C5B] mb-4">Horarios de Atención</h4>
-                <div className="space-y-2 text-gray-600">
-                  <p>
-                    <span className="font-medium">Lunes - Viernes:</span> 8:00 AM - 6:00 PM
-                  </p>
-                  <p>
-                    <span className="font-medium">Sábados:</span> 9:00 AM - 2:00 PM
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#0C2C5B] text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <div className="flex items-center mb-4">
-                <Image
-                  src="/images/logo-gml.jpg"
-                  alt="GML Servicios Aéreos"
-                  width={60}
-                  height={60}
-                  className="rounded-full mr-4"
-                />
-                <h3 className="text-xl font-bold">GML Servicios Aéreos</h3>
-              </div>
-              <p className="text-gray-300">
-                Especialistas en Courier internacional, importación y exportación con más de 30 años de experiencia.
+              <h1 className="display rise text-[clamp(2.5rem,5.4vw,4.25rem)]">
+                Courier y carga de Estados Unidos a Argentina
+              </h1>
+              <p className="prose-gml rise rise-2 mt-6 max-w-[34rem] text-lg sm:text-xl">
+                Envíos courier, importación y exportación con despacho aduanero y entrega puerta a puerta. Más de 30
+                años de experiencia.
               </p>
+              <div className="rise rise-3 mt-9 flex flex-col gap-3 sm:flex-row">
+                <a href="#contacto" className="btn btn-primary">
+                  Pedir presupuesto
+                </a>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                  <MessageCircle className="h-4 w-4" aria-hidden />
+                  Escribir por WhatsApp
+                </a>
+              </div>
+
+              {/* Ruta: el gesto propio de la página */}
+              <div className="rise rise-3 mt-14 flex items-center gap-4" aria-label="Ruta Miami a Buenos Aires">
+                <div>
+                  <div className="heading text-2xl">MIA</div>
+                  <div className="text-sm text-[var(--slate)]">Miami</div>
+                </div>
+                <div className="relative flex-1">
+                  <div className="border-t-2 border-dashed border-[var(--red)]/60" />
+                  <Plane
+                    className="absolute left-1/2 top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-white text-[var(--red)] box-content px-1.5"
+                    aria-hidden
+                  />
+                </div>
+                <div className="text-right">
+                  <div className="heading text-2xl">EZE</div>
+                  <div className="text-sm text-[var(--slate)]">Buenos Aires</div>
+                </div>
+              </div>
             </div>
 
+            <figure className="relative">
+              <Image
+                src="/photos/miami-aeropuerto.jpg"
+                alt="Vista aérea del Aeropuerto Internacional de Miami"
+                width={1800}
+                height={1285}
+                priority
+                className="aspect-[4/5] w-full rounded-3xl object-cover sm:aspect-[4/3] lg:aspect-[4/5]"
+                sizes="(min-width: 1024px) 520px, 100vw"
+              />
+              <figcaption className="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-1.5 text-sm text-[var(--navy)] backdrop-blur">
+                Aeropuerto Internacional de Miami
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        {/* Nosotros */}
+        <section id="nosotros" className="scroll-mt-20 bg-[var(--mist)] py-20 lg:py-28">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16">
             <div>
-              <h4 className="text-lg font-semibold mb-4">Navegación</h4>
-              <ul className="space-y-2">
-                <li>
-                  <button
-                    onClick={() => scrollToSection("inicio")}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Inicio
-                  </button>
+              <h2 className="heading text-[clamp(2rem,4vw,3rem)]">Tres décadas moviendo mercadería entre dos países</h2>
+              <p className="prose-gml mt-6 max-w-[36rem] text-lg">
+                GML reúne más de 30 años de experiencia de sus socios en el manejo y el envío de mercadería. Nuestro
+                trabajo es darle a cada cliente el servicio que su operación necesita, con el conocimiento de quien
+                conoce los procesos por dentro.
+              </p>
+              <dl className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+                {values.map((v) => (
+                  <div key={v.title} className="border-t-2 border-[var(--navy)] pt-4">
+                    <dt className="heading text-lg">{v.title}</dt>
+                    <dd className="prose-gml mt-2">{v.text}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+            <figure className="relative self-stretch">
+              <Image
+                src="/photos/buenos-aires.jpg"
+                alt="Vista aérea de Buenos Aires"
+                width={1800}
+                height={1348}
+                className="aspect-[4/3] w-full rounded-3xl object-cover lg:aspect-auto lg:h-full"
+                sizes="(min-width: 1024px) 560px, 100vw"
+              />
+              <figcaption className="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-1.5 text-sm backdrop-blur">
+                Nuestra oficina está en Palermo, Buenos Aires
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        {/* Servicios */}
+        <section id="servicios" className="scroll-mt-20 py-20 lg:py-28">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.6fr] lg:gap-20">
+            <div className="lg:sticky lg:top-28 lg:self-start">
+              <h2 className="heading text-[clamp(2rem,4vw,3rem)]">Servicios</h2>
+              <p className="prose-gml mt-5 max-w-sm text-lg">
+                Desde un paquete hasta una carga consolidada: nos ocupamos de que llegue, y de los trámites del camino.
+              </p>
+              <a href="#contacto" className="btn btn-ghost mt-8">
+                Consultar por un envío
+              </a>
+            </div>
+            <ul className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+              {services.map((s) => (
+                <li key={s.title} className="grid gap-3 py-8 sm:grid-cols-[1fr_auto] sm:gap-8">
+                  <div>
+                    <h3 className="heading text-xl sm:text-2xl">{s.title}</h3>
+                    <p className="prose-gml mt-3 max-w-[38rem]">{s.text}</p>
+                  </div>
+                  <span className="h-fit w-fit rounded-full bg-[var(--mist)] px-3 py-1 text-sm text-[var(--navy)] sm:mt-1">
+                    {s.tag}
+                  </span>
                 </li>
-                <li>
-                  <button
-                    onClick={() => scrollToSection("nosotros")}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Nosotros
-                  </button>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Cómo funciona: es un proceso real, por eso va numerado */}
+        <section id="como-funciona" className="scroll-mt-20 bg-[var(--navy)] py-20 text-white lg:py-28">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <h2 className="heading max-w-2xl text-[clamp(2rem,4vw,3rem)]">Cómo llega su mercadería</h2>
+            <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+              {steps.map((step, i) => (
+                <li key={step.title} className="relative">
+                  {i < steps.length - 1 && (
+                    <div className="absolute left-12 right-0 top-5 hidden border-t border-white/25 lg:block" aria-hidden />
+                  )}
+                  <div className="heading relative flex h-10 w-10 items-center justify-center rounded-full bg-[var(--red)] text-base">
+                    {i + 1}
+                  </div>
+                  <h3 className="heading mt-6 text-lg">{step.title}</h3>
+                  <p className="mt-2 leading-relaxed text-white/75">{step.text}</p>
                 </li>
-                <li>
-                  <button
-                    onClick={() => scrollToSection("servicios")}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Servicios
-                  </button>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Contacto */}
+        <section id="contacto" className="scroll-mt-20 py-20 lg:py-28">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+            <div>
+              <h2 className="heading text-[clamp(2rem,4vw,3rem)]">Hablemos de su envío</h2>
+              <p className="prose-gml mt-5 max-w-md text-lg">
+                Cuéntenos qué necesita traer o enviar y le respondemos con un presupuesto.
+              </p>
+              <ul className="mt-10 space-y-6">
+                <li className="flex gap-4">
+                  <Phone className="mt-1 h-5 w-5 shrink-0 text-[var(--red)]" aria-hidden />
+                  <div>
+                    <div className="font-semibold">Teléfono y WhatsApp</div>
+                    <a href="tel:+541139468007" className="prose-gml hover:text-[var(--navy)]">
+                      +54 (11) 3946-8007
+                    </a>
+                  </div>
                 </li>
-                <li>
-                  <button
-                    onClick={() => scrollToSection("proyectos")}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Proyectos
-                  </button>
+                <li className="flex gap-4">
+                  <Mail className="mt-1 h-5 w-5 shrink-0 text-[var(--red)]" aria-hidden />
+                  <div>
+                    <div className="font-semibold">Email</div>
+                    <a href="mailto:info@gml.com.ar" className="prose-gml hover:text-[var(--navy)]">
+                      info@gml.com.ar
+                    </a>
+                  </div>
                 </li>
-                <li>
-                  <button
-                    onClick={() => scrollToSection("contacto")}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    Contacto
-                  </button>
+                <li className="flex gap-4">
+                  <MapPin className="mt-1 h-5 w-5 shrink-0 text-[var(--red)]" aria-hidden />
+                  <div>
+                    <div className="font-semibold">Oficina</div>
+                    <p className="prose-gml">Honduras 5730, Palermo (CABA), Buenos Aires</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <Clock className="mt-1 h-5 w-5 shrink-0 text-[var(--red)]" aria-hidden />
+                  <div>
+                    <div className="font-semibold">Horario</div>
+                    <p className="prose-gml">Lunes a viernes de 8 a 18 h. Sábados de 9 a 14 h.</p>
+                  </div>
                 </li>
               </ul>
             </div>
-
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Contacto</h4>
-              <div className="space-y-2 text-gray-300">
-                <p className="flex items-center">
-                  <Phone className="w-4 h-4 mr-2" /> +54 (11) 3946-8007
-                </p>
-                <p className="flex items-center">
-                  <Mail className="w-4 h-4 mr-2" /> info@gml.com.ar
-                </p>
-                <p className="flex items-start">
-                  <MapPin className="w-4 h-4 mr-2 mt-1" /> Honduras 5730, Palermo (CABA)
-                </p>
-              </div>
+            <div className="rounded-3xl bg-[var(--mist)] p-6 sm:p-10">
+              <ContactForm />
             </div>
           </div>
+        </section>
+      </main>
 
-          <div className="border-t border-gray-700 pt-8 text-center text-gray-300">
-            <p>&copy; 2025 GML Servicios Aéreos. Todos los derechos reservados.</p>
+      {/* Pie */}
+      <footer className="bg-[var(--navy-deep)] text-white">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12 sm:px-6 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-3">
+            <Image src="/images/logo-gml.jpg" alt="" width={44} height={44} className="rounded-full" />
+            <div>
+              <div className="heading">GML Servicios Aéreos</div>
+              <div className="text-sm text-white/60">Courier y carga de Estados Unidos a Argentina</div>
+            </div>
           </div>
+          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/70" aria-label="Pie de página">
+            {nav.map((item) => (
+              <a key={item.href} href={item.href} className="hover:text-white">
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+        <div className="border-t border-white/10">
+          <p className="mx-auto max-w-6xl px-4 py-5 text-sm text-white/50 sm:px-6">
+            © {new Date().getFullYear()} GML Servicios Aéreos. Todos los derechos reservados.
+          </p>
         </div>
       </footer>
 
-      {/* WhatsApp Float Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button
-          size="lg"
-          onClick={() =>
-            window.open(
-              "https://wa.me/541139468007?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios%20de%20courier%20internacional",
-              "_blank",
-            )
-          }
-          className="bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 shadow-lg hover:shadow-2xl transform hover:scale-110 transition-all duration-300 animate-pulse hover:animate-none"
-        >
-          <MessageCircle className="w-6 h-6" />
-        </Button>
-      </div>
-
-      <style jsx>{`
-        @keyframes parallax {
-          0% { transform: scale(1.1) translateY(0px); }
-          100% { transform: scale(1.15) translateY(-20px); }
-        }
-      `}</style>
+      <WhatsAppButton />
     </div>
   )
 }
